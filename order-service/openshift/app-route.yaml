@@ -1,0 +1,9 @@
+apiVersion: "v1"
+kind: "Route"
+metadata:
+  name: "order-service"
+spec:
+  path: "/orders/"
+  to:
+    kind: Service
+    name: "order-service"

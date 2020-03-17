@@ -1,0 +1,30 @@
+kind: "DeploymentConfig"
+apiVersion: "v1"
+metadata:
+  name: "order-service"
+spec:
+  template:
+    metadata:
+      labels:
+        name: "order-service"
+    spec:
+      containers: # (1)
+        - name: "order-service"
+          ports:
+            - containerPort: 8080
+              protocol: "TCP"
+  replicas: 1 # (2)
+  triggers: # (3)
+    - type: "ConfigChange"
+    - type: "ImageChange"
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - "order-service"
+        from:
+          kind: "ImageStreamTag"
+          name: "order-service:latest"
+  strategy: # (4)
+    type: "Rolling"
+  paused: false
+  revisionHistoryLimit: 2
